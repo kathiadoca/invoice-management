@@ -6,7 +6,6 @@ import { AppModule } from './app.module';
 import {
   SERVICE_DESCRIPTION,
   SERVICE_NAME,
-  SERVICE_PREFIX,
   SERVICE_VERSION,
 } from './share/domain/resources/constants';
 import configuration from './share/domain/resources/env.config';
@@ -21,7 +20,7 @@ async function bootstrap() {
     logger: new Logger20Service(),
   });
 
-  app.setGlobalPrefix(SERVICE_PREFIX);
+  app.setGlobalPrefix('ecommerce');
 
   const configSwagger = new DocumentBuilder()
     .setTitle(SERVICE_NAME)

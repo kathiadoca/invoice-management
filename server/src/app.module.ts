@@ -2,7 +2,7 @@ import { Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './share/domain/resources/env.config';
 import { GlobalModule } from './share/domain/config/global.module';
-import { LoginModule } from './login/interfaces/module/login.module';
+import { CreateUserModule } from './createUser/interfaces/module/createUser.module';
 
 @Module({
   providers: [Logger],
@@ -11,7 +11,7 @@ import { LoginModule } from './login/interfaces/module/login.module';
       isGlobal: true,
       load: [configuration],
     }),
-    LoginModule,
+    CreateUserModule,
     GlobalModule,
   ],
 })
