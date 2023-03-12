@@ -16,8 +16,7 @@ import config from '../../share/domain/resources/env.config';
 import { ApiResponseDto } from '../../share/domain/dto/apiResponse.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDTO } from '../domain/dto/userDto';
-import { User, UserDocument } from '../../share/domain/dto/user.entity';
+import { User, UserDocument } from '../domain/dto/delete.entity';
 
 /**
  *  @description Clase servicio responsable recibir el parametro y realizar la logica de negocio.
@@ -26,8 +25,8 @@ import { User, UserDocument } from '../../share/domain/dto/user.entity';
  *
  */
 @Injectable()
-export class CreateUserService {
-  private readonly logger = new Logger(CreateUserService.name);
+export class DeleteUserService {
+  private readonly logger = new Logger(DeleteUserService.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
@@ -35,35 +34,26 @@ export class CreateUserService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  /**
-   *  @description Metodo para buscar un usuario por 'username' en la base de datos
-   *
-   *
-   */
-  async findOne(username: string): Promise<UserDocument | undefined> {
-    return this.userModel.findOne({ username }).exec();
-  }
-
-  public async create(userDTO: UserDTO): Promise<ApiResponseDto> {
+  public async delete(username: string): Promise<ApiResponseDto> {
     try {
-      const userDb = await this.findOne(userDTO.username);
-      if (userDb) throw new ConflictException('User already exists');
-
-      console.log('--->', userDb);
+      const value = Object.values(username).toString();
+      const userDb = await this.userModel.findOneAndDelete({
+        username: value,
+      });
       /* const userEntity = new User();
 
       userEntity.user = userDTO.user;
       userEntity.password = userDTO.password; */
       //console.log('userEntity', userEntity);
 
-      const userCreated = await this.userModel.create(userDTO);
+      //const userCreated = await this.userModel.create(userDTO);
 
-      this.logger.log('create user request', {
+      /* this.logger.log('create user request', {
         request: userDTO,
         transactionId: this.transactionId,
         response: userCreated,
-      });
-      return new ApiResponseDto(HttpStatus.CREATED, OK);
+      }); */
+      return new ApiResponseDto(HttpStatus.OK, OK);
     } catch (error) {
       this.logger.error(error.message, {
         transactionId: this.transactionId,

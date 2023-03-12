@@ -16,8 +16,8 @@ import config from '../../share/domain/resources/env.config';
 import { ApiResponseDto } from '../../share/domain/dto/apiResponse.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { UserDTO } from '../domain/dto/userDto';
-import { User, UserDocument } from '../../share/domain/dto/user.entity';
+import { OrderDTO } from '../domain/dto/orderDto';
+import { Order, OrderDocument } from '../domain/dto/order.entity';
 
 /**
  *  @description Clase servicio responsable recibir el parametro y realizar la logica de negocio.
@@ -26,13 +26,13 @@ import { User, UserDocument } from '../../share/domain/dto/user.entity';
  *
  */
 @Injectable()
-export class CreateUserService {
-  private readonly logger = new Logger(CreateUserService.name);
+export class CreateOrderService {
+  private readonly logger = new Logger(CreateOrderService.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
     @Inject(config.KEY) private configService: ConfigType<typeof config>,
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    @InjectModel(Order.name) private orderModel: Model<OrderDocument>,
   ) {}
 
   /**
@@ -40,13 +40,13 @@ export class CreateUserService {
    *
    *
    */
-  async findOne(username: string): Promise<UserDocument | undefined> {
-    return this.userModel.findOne({ username }).exec();
+  async findOne(username: number): Promise<OrderDocument | undefined> {
+    return this.orderModel.findOne({ username }).exec();
   }
 
-  public async create(userDTO: UserDTO): Promise<ApiResponseDto> {
+  public async createOrder(orderDTO: OrderDTO): Promise<ApiResponseDto> {
     try {
-      const userDb = await this.findOne(userDTO.username);
+      const userDb = await this.findOne(orderDTO.orderId);
       if (userDb) throw new ConflictException('User already exists');
 
       console.log('--->', userDb);
@@ -56,10 +56,10 @@ export class CreateUserService {
       userEntity.password = userDTO.password; */
       //console.log('userEntity', userEntity);
 
-      const userCreated = await this.userModel.create(userDTO);
+      const userCreated = await this.orderModel.create(orderDTO);
 
-      this.logger.log('create user request', {
-        request: userDTO,
+      this.logger.log('create order request', {
+        request: orderDTO,
         transactionId: this.transactionId,
         response: userCreated,
       });

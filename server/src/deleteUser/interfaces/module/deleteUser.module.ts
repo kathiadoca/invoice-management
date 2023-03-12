@@ -2,11 +2,11 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { CreateUserService } from '../../application/createUser.service';
+import { DeleteUserService } from '../../application/deleteUser.service';
 import configuration from '../../../share/domain/resources/env.config';
+import { User, UserSchema } from '../../domain/dto/delete.entity';
 import { MongoseModule } from '../../../share/infrastructure/mongo/mongo.Module';
-import { CreateUserController } from '../controller/createUser.controller';
-import { User, UserSchema } from 'src/share/domain/dto/user.entity';
+import { DeleteUserController } from '../controller/deleteUser.controller';
 
 @Module({
   imports: [
@@ -22,7 +22,7 @@ import { User, UserSchema } from 'src/share/domain/dto/user.entity';
     ]),
     MongoseModule,
   ],
-  controllers: [CreateUserController],
-  providers: [CreateUserService],
+  controllers: [DeleteUserController],
+  providers: [DeleteUserService],
 })
-export class CreateUserModule {}
+export class DeleteUserModule {}

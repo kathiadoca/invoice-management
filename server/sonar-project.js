@@ -3,10 +3,10 @@ const sonarqubeScanner = require('sonarqube-scanner');
 
 sonarqubeScanner(
   {
-    serverUrl: 'http://sonarqube-pruebad.apps.claro.co/',
+    serverUrl: 'http://localhost:9000/',
     options: {
-      'sonar.login': 'sonar_digital',
-      'sonar.password': 'DigitalS0n4r2024*',
+      'sonar.login': 'admin',
+      'sonar.password': '1234',
       'sonar.sources': 'src',
       'sonar.tests': 'test',
       'sonar.inclusions': '**',

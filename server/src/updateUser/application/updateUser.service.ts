@@ -5,8 +5,11 @@ import {
   Inject,
   Injectable,
   Logger,
+  NotFoundException,
 } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
 
 import {
   OK,
@@ -14,9 +17,7 @@ import {
 } from '../../share/domain/resources/constants';
 import config from '../../share/domain/resources/env.config';
 import { ApiResponseDto } from '../../share/domain/dto/apiResponse.dto';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { UserDTO } from '../domain/dto/userDto';
+import { UpdateDTO } from '../domain/dto/updateDto';
 import { User, UserDocument } from '../../share/domain/dto/user.entity';
 
 /**
@@ -26,8 +27,8 @@ import { User, UserDocument } from '../../share/domain/dto/user.entity';
  *
  */
 @Injectable()
-export class CreateUserService {
-  private readonly logger = new Logger(CreateUserService.name);
+export class UpdateUserService {
+  private readonly logger = new Logger(UpdateUserService.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
@@ -44,26 +45,13 @@ export class CreateUserService {
     return this.userModel.findOne({ username }).exec();
   }
 
-  public async create(userDTO: UserDTO): Promise<ApiResponseDto> {
+  public async update(userDTO: UpdateDTO): Promise<ApiResponseDto> {
     try {
       const userDb = await this.findOne(userDTO.username);
-      if (userDb) throw new ConflictException('User already exists');
+      if (!userDb) throw new NotFoundException();
 
-      console.log('--->', userDb);
-      /* const userEntity = new User();
-
-      userEntity.user = userDTO.user;
-      userEntity.password = userDTO.password; */
-      //console.log('userEntity', userEntity);
-
-      const userCreated = await this.userModel.create(userDTO);
-
-      this.logger.log('create user request', {
-        request: userDTO,
-        transactionId: this.transactionId,
-        response: userCreated,
-      });
-      return new ApiResponseDto(HttpStatus.CREATED, OK);
+      await this.userModel.replaceOne({ username: userDTO.username }, userDTO);
+      return new ApiResponseDto(HttpStatus.ACCEPTED, OK);
     } catch (error) {
       this.logger.error(error.message, {
         transactionId: this.transactionId,

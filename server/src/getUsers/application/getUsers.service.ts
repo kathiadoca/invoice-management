@@ -26,8 +26,8 @@ import { User, UserDocument } from '../../share/domain/dto/user.entity';
  *
  */
 @Injectable()
-export class CreateUserService {
-  private readonly logger = new Logger(CreateUserService.name);
+export class GetUsersService {
+  private readonly logger = new Logger(GetUsersService.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
@@ -35,35 +35,16 @@ export class CreateUserService {
     @InjectModel(User.name) private userModel: Model<UserDocument>,
   ) {}
 
-  /**
-   *  @description Metodo para buscar un usuario por 'username' en la base de datos
-   *
-   *
-   */
-  async findOne(username: string): Promise<UserDocument | undefined> {
-    return this.userModel.findOne({ username }).exec();
-  }
-
-  public async create(userDTO: UserDTO): Promise<ApiResponseDto> {
+  public async getUser(): Promise<User[]> {
     try {
-      const userDb = await this.findOne(userDTO.username);
-      if (userDb) throw new ConflictException('User already exists');
+      const userDb = await this.userModel.find();
 
       console.log('--->', userDb);
-      /* const userEntity = new User();
-
-      userEntity.user = userDTO.user;
-      userEntity.password = userDTO.password; */
-      //console.log('userEntity', userEntity);
-
-      const userCreated = await this.userModel.create(userDTO);
-
       this.logger.log('create user request', {
-        request: userDTO,
         transactionId: this.transactionId,
-        response: userCreated,
+        response: userDb,
       });
-      return new ApiResponseDto(HttpStatus.CREATED, OK);
+      return userDb;
     } catch (error) {
       this.logger.error(error.message, {
         transactionId: this.transactionId,
@@ -72,10 +53,10 @@ export class CreateUserService {
       if (error.response && error.status) {
         throw new HttpException({ response: error.response }, error.status);
       }
-      return new ApiResponseDto(
+      /* return new ApiResponseDto(
         HttpStatus.SERVICE_UNAVAILABLE,
         SERVICE_UNAVAILABLE,
-      );
+      ); */
     }
   }
 }

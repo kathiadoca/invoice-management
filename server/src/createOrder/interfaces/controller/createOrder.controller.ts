@@ -2,7 +2,7 @@ import { Body, Controller, Inject, Logger, Post, Res } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { CreateUserService } from '../../application/createUser.service';
+import { CreateOrderService } from '../../application/createOrder.service';
 import { ProcessTimeService } from '../../../share/domain/config/processTime.service';
 import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
 
@@ -14,13 +14,13 @@ import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
  *
  */
 @ApiTags('create')
-@Controller('user/create')
-export class CreateUserController {
-  private readonly logger = new Logger(CreateUserController.name);
+@Controller('order/create')
+export class CreateOrderController {
+  private readonly logger = new Logger(CreateOrderController.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
-    private readonly service: CreateUserService,
+    private readonly service: CreateOrderService,
     private readonly processTimeService: ProcessTimeService,
   ) {}
 
@@ -36,7 +36,7 @@ export class CreateUserController {
         request: payload,
         transactionId: this.transactionId,
       });
-      const serviceResponse = await this.service.create(payload);
+      const serviceResponse = await this.service.createOrder(payload);
       res.status(serviceResponse.responseCode).json(serviceResponse);
     } finally {
       this.logger.log(`Consumo del servicio finalizado`, {

@@ -1,8 +1,8 @@
-import { Body, Controller, Inject, Logger, Post, Res } from '@nestjs/common';
+import { Controller, Get, Inject, Logger, Res } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { CreateUserService } from '../../application/createUser.service';
+import { GetUsersService } from '../../application/getUsers.service';
 import { ProcessTimeService } from '../../../share/domain/config/processTime.service';
 import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
 
@@ -13,14 +13,14 @@ import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
  *  @author Celula Azure
  *
  */
-@ApiTags('create')
-@Controller('user/create')
-export class CreateUserController {
-  private readonly logger = new Logger(CreateUserController.name);
+@ApiTags('user')
+@Controller('user')
+export class GetUsersController {
+  private readonly logger = new Logger(GetUsersController.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
-    private readonly service: CreateUserService,
+    private readonly service: GetUsersService,
     private readonly processTimeService: ProcessTimeService,
   ) {}
 
@@ -28,16 +28,15 @@ export class CreateUserController {
     type: ApiResponseDto,
     status: 200,
   })
-  @Post()
-  async createUser(@Res() res: Response, @Body() payload: any): Promise<void> {
+  @Get()
+  async createUser(@Res() res: Response): Promise<void> {
     const processTime = this.processTimeService.start();
     try {
       this.logger.log('Controller request message', {
-        request: payload,
         transactionId: this.transactionId,
       });
-      const serviceResponse = await this.service.create(payload);
-      res.status(serviceResponse.responseCode).json(serviceResponse);
+      const serviceResponse = await this.service.getUser();
+      res.status(200).json(serviceResponse);
     } finally {
       this.logger.log(`Consumo del servicio finalizado`, {
         totalProcessTime: processTime.end(),

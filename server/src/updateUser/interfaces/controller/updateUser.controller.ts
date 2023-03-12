@@ -1,10 +1,11 @@
-import { Body, Controller, Inject, Logger, Post, Res } from '@nestjs/common';
+import { Body, Controller, Inject, Logger, Put, Res } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { CreateUserService } from '../../application/createUser.service';
+import { UpdateUserService } from '../../application/updateUser.service';
 import { ProcessTimeService } from '../../../share/domain/config/processTime.service';
 import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
+import { UpdateDTO } from 'src/updateUser/domain/dto/updateDto';
 
 /**
  *  @description Archivo controlador responsable de manejar las solicitudes entrantes que llegan a un end point.
@@ -13,14 +14,14 @@ import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
  *  @author Celula Azure
  *
  */
-@ApiTags('create')
-@Controller('user/create')
-export class CreateUserController {
-  private readonly logger = new Logger(CreateUserController.name);
+@ApiTags('update')
+@Controller('user/update')
+export class UpdateUserController {
+  private readonly logger = new Logger(UpdateUserController.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
-    private readonly service: CreateUserService,
+    private readonly service: UpdateUserService,
     private readonly processTimeService: ProcessTimeService,
   ) {}
 
@@ -28,15 +29,18 @@ export class CreateUserController {
     type: ApiResponseDto,
     status: 200,
   })
-  @Post()
-  async createUser(@Res() res: Response, @Body() payload: any): Promise<void> {
+  @Put()
+  async updateUser(
+    @Res() res: Response,
+    @Body() body: UpdateDTO,
+  ): Promise<void> {
     const processTime = this.processTimeService.start();
     try {
       this.logger.log('Controller request message', {
-        request: payload,
+        request: body,
         transactionId: this.transactionId,
       });
-      const serviceResponse = await this.service.create(payload);
+      const serviceResponse = await this.service.update(body);
       res.status(serviceResponse.responseCode).json(serviceResponse);
     } finally {
       this.logger.log(`Consumo del servicio finalizado`, {
