@@ -49,13 +49,6 @@ export class CreateUserService {
       const userDb = await this.findOne(userDTO.username);
       if (userDb) throw new ConflictException('User already exists');
 
-      console.log('--->', userDb);
-      /* const userEntity = new User();
-
-      userEntity.user = userDTO.user;
-      userEntity.password = userDTO.password; */
-      //console.log('userEntity', userEntity);
-
       const userCreated = await this.userModel.create(userDTO);
 
       this.logger.log('create user request', {

@@ -7,8 +7,11 @@ export class ApiResponseDto {
   @ApiProperty()
   message: string;
 
-  constructor(responseCode: number, message: string) {
+  data?: any;
+
+  constructor(responseCode: number, message: string, data?: any) {
     this.responseCode = responseCode;
     this.message = message;
+    this.data = data;
   }
 }

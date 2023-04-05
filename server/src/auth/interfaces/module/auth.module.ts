@@ -2,11 +2,15 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { GetUsersService } from '../../application/getUsers.service';
+import { AuthService } from '../../application/auth.service';
 import configuration from '../../../share/domain/resources/env.config';
 import { MongoseModule } from '../../../share/infrastructure/mongo/mongo.Module';
-import { GetUsersController } from '../controller/getUsers.controller';
+import { AuthController } from '../controller/auth.controller';
 import { User, UserSchema } from 'src/share/domain/dto/user.entity';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from 'src/auth/application/jwt.strategy';
+import { SECRET } from 'src/share/domain/resources/constants';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -20,9 +24,14 @@ import { User, UserSchema } from 'src/share/domain/dto/user.entity';
         schema: UserSchema,
       },
     ]),
+    JwtModule.register({
+      secret: process.env.SECRET,
+      signOptions: { expiresIn: '60s' },
+    }),
     MongoseModule,
+    PassportModule,
   ],
-  controllers: [GetUsersController],
-  providers: [GetUsersService],
+  controllers: [AuthController],
+  providers: [AuthService, JwtStrategy],
 })
-export class GetUsersModule {}
+export class AuthModule {}

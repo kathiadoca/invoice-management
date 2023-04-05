@@ -40,19 +40,6 @@ export class DeleteUserService {
       const userDb = await this.userModel.findOneAndDelete({
         username: value,
       });
-      /* const userEntity = new User();
-
-      userEntity.user = userDTO.user;
-      userEntity.password = userDTO.password; */
-      //console.log('userEntity', userEntity);
-
-      //const userCreated = await this.userModel.create(userDTO);
-
-      /* this.logger.log('create user request', {
-        request: userDTO,
-        transactionId: this.transactionId,
-        response: userCreated,
-      }); */
       return new ApiResponseDto(HttpStatus.OK, OK);
     } catch (error) {
       this.logger.error(error.message, {

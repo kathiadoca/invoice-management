@@ -23,6 +23,7 @@ async function bootstrap() {
   app.setGlobalPrefix('ecommerce');
 
   const configSwagger = new DocumentBuilder()
+    .addBearerAuth()
     .setTitle(SERVICE_NAME)
     .setDescription(SERVICE_DESCRIPTION)
     .setVersion(SERVICE_VERSION)

@@ -1,20 +1,11 @@
-import {
-  Body,
-  Controller,
-  Inject,
-  Logger,
-  Post,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Inject, Logger, Post, Res } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Response } from 'express';
 
-import { CreateOrderService } from '../../application/createOrder.service';
+import { AuthService } from '../../application/auth.service';
 import { ProcessTimeService } from '../../../share/domain/config/processTime.service';
 import { ApiResponseDto } from '../../../share/domain/dto/apiResponse.dto';
-import { JwtAuthGuard } from 'src/auth/application/jwt-auth.guard';
-import { OrderDTO } from 'src/createOrder/domain/dto/orderDto';
+import { UserDTO } from 'src/auth/domain/dto/userDto';
 
 /**
  *  @description Archivo controlador responsable de manejar las solicitudes entrantes que llegan a un end point.
@@ -23,35 +14,54 @@ import { OrderDTO } from 'src/createOrder/domain/dto/orderDto';
  *  @author Celula Azure
  *
  */
-@ApiTags('create')
-@Controller('order/create')
-export class CreateOrderController {
-  private readonly logger = new Logger(CreateOrderController.name);
+@ApiTags('auth')
+@Controller('auth')
+export class AuthController {
+  private readonly logger = new Logger(AuthController.name);
   @Inject('TransactionId') private readonly transactionId: string;
 
   constructor(
-    private readonly service: CreateOrderService,
+    private readonly service: AuthService,
     private readonly processTimeService: ProcessTimeService,
   ) {}
 
   @ApiResponse({
     type: ApiResponseDto,
-    status: 200,
+    status: 201,
   })
-  @UseGuards(JwtAuthGuard)
-  @Post()
-  async createUser(
+  @Post('register')
+  async registerUser(
+    @Body() body: UserDTO,
     @Res() res: Response,
-    @Body() payload: OrderDTO,
   ): Promise<void> {
     const processTime = this.processTimeService.start();
     try {
       this.logger.log('Controller request message', {
-        request: payload,
         transactionId: this.transactionId,
       });
-      const serviceResponse = await this.service.createOrder(payload);
+      const serviceResponse = await this.service.register(body);
       res.status(serviceResponse.responseCode).json(serviceResponse);
+    } finally {
+      this.logger.log(`Consumo del servicio finalizado`, {
+        totalProcessTime: processTime.end(),
+        transactionId: this.transactionId,
+      });
+    }
+  }
+
+  @ApiResponse({
+    type: ApiResponseDto,
+    status: 201,
+  })
+  @Post('login')
+  async loginUser(@Body() body: UserDTO, @Res() res: Response): Promise<void> {
+    const processTime = this.processTimeService.start();
+    try {
+      this.logger.log('Controller request message', {
+        transactionId: this.transactionId,
+      });
+      const serviceResponse = await this.service.login(body);
+      res.status(200).json(serviceResponse);
     } finally {
       this.logger.log(`Consumo del servicio finalizado`, {
         totalProcessTime: processTime.end(),

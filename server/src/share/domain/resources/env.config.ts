@@ -9,4 +9,5 @@ export default registerAs('configuration', () => ({
     ISACTIVE: process.env.ELASTIC_APM_ACTIVE,
   },
   MONGO_URL: process.env.MONGO_URL,
+  SECRET: process.env.SECRET,
 }));

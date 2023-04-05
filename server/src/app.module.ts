@@ -5,8 +5,8 @@ import { GlobalModule } from './share/domain/config/global.module';
 import { CreateUserModule } from './createUser/interfaces/module/createUser.module';
 import { DeleteUserModule } from './deleteUser/interfaces/module/deleteUser.module';
 import { UpdateUserModule } from './updateUser/interfaces/module/updateUser.module';
-import { GetUsersModule } from './getUsers/interfaces/module/getUsers.module';
 import { CreateOrderModule } from './createOrder/interfaces/module/createOrder.module';
+import { AuthModule } from './auth/interfaces/module/auth.module';
 
 @Module({
   providers: [Logger],
@@ -18,7 +18,7 @@ import { CreateOrderModule } from './createOrder/interfaces/module/createOrder.m
     CreateUserModule,
     DeleteUserModule,
     UpdateUserModule,
-    GetUsersModule,
+    AuthModule,
     CreateOrderModule,
     GlobalModule,
   ],

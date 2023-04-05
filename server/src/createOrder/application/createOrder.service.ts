@@ -46,15 +46,9 @@ export class CreateOrderService {
 
   public async createOrder(orderDTO: OrderDTO): Promise<ApiResponseDto> {
     try {
+      //Obtiene el usuario de la base de datos
       const userDb = await this.findOne(orderDTO.orderId);
-      if (userDb) throw new ConflictException('User already exists');
-
-      console.log('--->', userDb);
-      /* const userEntity = new User();
-
-      userEntity.user = userDTO.user;
-      userEntity.password = userDTO.password; */
-      //console.log('userEntity', userEntity);
+      //if (userDb) throw new ConflictException('User already exists');
 
       const userCreated = await this.orderModel.create(orderDTO);
 

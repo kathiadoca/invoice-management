@@ -20,5 +20,5 @@ export class OrderDTO {
 
   @ApiProperty()
   @IsNotEmpty()
-  orderTotal: string;
+  orderTotal: number;
 }
