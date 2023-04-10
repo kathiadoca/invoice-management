@@ -34,6 +34,7 @@ export class AuthController {
     @Body() body: UserDTO,
     @Res() res: Response,
   ): Promise<void> {
+    console.log(body);
     const processTime = this.processTimeService.start();
     try {
       this.logger.log('Controller request message', {
@@ -58,10 +59,11 @@ export class AuthController {
     const processTime = this.processTimeService.start();
     try {
       this.logger.log('Controller request message', {
+        request: body,
         transactionId: this.transactionId,
       });
       const serviceResponse = await this.service.login(body);
-      res.status(200).json(serviceResponse);
+      res.status(serviceResponse.responseCode).json(serviceResponse);
     } finally {
       this.logger.log(`Consumo del servicio finalizado`, {
         totalProcessTime: processTime.end(),
