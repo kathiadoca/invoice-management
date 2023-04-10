@@ -1,0 +1,85 @@
+.background {
+  height: 100vh;
+  background-color: #ecaf81;
+}
+
+$container-width: 400px;
+$form-background: #cbaff2;
+$form-border: 1px solid #ccc;
+$form-padding: 20px;
+$form-label-margin-bottom: 10px;
+$form-input-padding: 10px;
+$form-input-margin-bottom: 20px;
+$form-submit-background: #4CAF50;
+$form-submit-color: #fff;
+$form-submit-padding: 10px;
+$form-submit-border: none;
+$form-border-radius: 10px;
+$form-opacity: 0.8;
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  height: 10vh;
+
+  .form {
+    border-radius: $form-border-radius;
+    opacity: $form-opacity;
+    width: $container-width;
+    background-color: $form-background;
+    border: $form-border;
+    padding: $form-padding;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+
+    label {
+      margin-bottom: $form-label-margin-bottom;
+      display: block;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="password"] {
+      padding: $form-input-padding;
+      margin-bottom: $form-input-margin-bottom;
+      width: 100%;
+      box-sizing: border-box;
+      border: none;
+      border-bottom: $form-border;
+      font-size: 16px;
+    }
+
+    input[type="submit"] {
+      background-color: $form-submit-background;
+      color: $form-submit-color;
+      padding: $form-submit-padding;
+      border: $form-submit-border;
+      border-radius: 4px;
+      cursor: pointer;
+      &:hover {
+        background-color: darken($form-submit-background, 10%);
+      }
+    }
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+
+  button.submit {
+    background-color: #428bca;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px; /* Agrega un margen de 10px entre los botones */
+
+    &:hover {
+      background-color: #3071a9;
+    }
+  }
+}

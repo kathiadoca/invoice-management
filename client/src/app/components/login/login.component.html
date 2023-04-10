@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="top"></div>
+    <div class="bottom"></div>
+    <div class="center">
+      <h2>Login</h2>
+      <form [formGroup]="loginForm" (ngSubmit)="onLogin(loginForm.value)">
+        <input type="username" placeholder="username" formControlName="username"/>
+        <input type="password" placeholder="password" formControlName="password"/>
+        <div class="button-container">
+          <button class="submit" value="Log In">Iniciar sesión</button>
+          <a routerLink="/signup"><button class="submit">Registrar</button></a>
+        </div>
+      </form>
+      <h2>&nbsp;</h2>
+    </div>
+</div>
