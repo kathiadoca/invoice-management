@@ -33,7 +33,7 @@ export class LoginComponent implements OnInit {
 
   checkLocalStorage(){
     if(localStorage.getItem('token')){
-      this.router.navigate(['admin-order']);
+      //this.router.navigate(['admin-order']);
     }
   }
   
