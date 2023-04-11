@@ -6,19 +6,19 @@ export type OrderDocument = Order & Document;
 @Schema({ collection: 'Orders' })
 export class Order extends Document {
   @Prop({ required: true })
-  orderId: string;
-
-  @Prop({ required: true })
-  customerName: string;
-
-  @Prop({ required: true })
-  orderDate: Date;
-
-  @Prop({ required: true })
-  orderItems: [];
+  reference: string;
 
   @Prop({ required: true })
   orderTotal: number;
+
+  @Prop({ required: true })
+  expirationDate: Date;
+
+  @Prop({ required: true })
+  ean: string;
+
+  @Prop({ required: true })
+  status: number;
 }
 
 export const OrderSchema = SchemaFactory.createForClass(Order);

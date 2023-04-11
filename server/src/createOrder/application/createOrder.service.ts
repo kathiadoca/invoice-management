@@ -39,14 +39,14 @@ export class CreateOrderService {
    *
    *
    */
-  async findOne(username: number): Promise<OrderDocument | undefined> {
-    return this.orderModel.findOne({ username }).exec();
+  async findOne(reference: string): Promise<OrderDocument | undefined> {
+    return this.orderModel.findOne({ reference }).exec();
   }
 
   public async createOrder(orderDTO: OrderDTO): Promise<ApiResponseDto> {
     try {
       //Obtiene el usuario de la base de datos
-      const userDb = await this.findOne(orderDTO.orderId);
+      const userDb = await this.findOne(orderDTO.reference);
       //if (userDb) throw new ConflictException('User already exists');
 
       const userCreated = await this.orderModel.create(orderDTO);
