@@ -1,15 +1,16 @@
 <h1 class="titulo">Orden de compra</h1>
 <div class="contenedor">
   <label for="filtro">Filtrar por referencia:</label>
-  <input type="text" id="filtro">
-  <div id="objeto">
-      <p><strong>Referencia:</strong></p>
-      <p><strong>Total de la orden:</strong></p>
-      <p><strong>Fecha de vencimiento:</strong></p>
-      <p><strong>EAN:</strong></p>
-      <p><strong>Estado:</strong></p>
+  <input type="text" id="filtro" [(ngModel)]="reference">
+  <button class="submit" type="submit" (click)="order()">Consultar</button>
+  <div id="objeto" *ngIf="order">
+      <p><strong>Referencia: {{referencia }}</strong></p>
+      <p><strong>Total de la orden: {{orderTotal }}</strong></p>
+      <p><strong>Fecha de vencimiento: {{expirationDate }}</strong></p>
+      <p><strong>EAN: {{ean }}</strong></p>
+      <p><strong>Estado: {{status }}</strong></p>
       <div class="button-container">
-          <button class="submit" type="submit">Crear</button>
+          <button class="button-pay" type="submit" (click)="payment({ reference: referencia, status: 1 })" [disabled]="status===1">Pagar</button>
           <a routerLink="/login"><button class="submit">Regresar</button></a>
       </div>
   </div>

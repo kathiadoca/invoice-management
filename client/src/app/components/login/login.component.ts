@@ -39,8 +39,6 @@ export class LoginComponent implements OnInit {
   
   onLogin(loginData: Partial<{ usuario: string | null; password: string | null; }>) {
     const login: Login = loginData as Login;
-    console.log(login);
-    console.log(loginData);
     this.apiService.login(login).subscribe(data=>{
       let responseAuth: ResponseLogin = data;
       if(responseAuth.message === 'Ok'){
