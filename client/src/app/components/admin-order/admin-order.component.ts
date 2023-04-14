@@ -38,6 +38,12 @@ export class AdminOrderComponent implements OnInit {
     let responseOrder: ResponseGetOrder;
     this.apiService.getOrder(this.reference).subscribe(data=>{
       responseOrder = data;
+      if(responseOrder.data === null){
+        this.message = 'Factura no encontrada';
+        setTimeout(() => {
+          this.message = '';
+        }, 2000);
+      }
       this.referencia = responseOrder.data.reference;
       this.orderTotal = responseOrder.data.orderTotal;
       this.expirationDate = responseOrder.data.expirationDate;

@@ -1,9 +1,15 @@
 .titulo {
   text-align: center;
+  color: #4974f1;
+}
+
+.filtro {
+  color: #4974f1;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
 .background {
-  background-color: #0099ff;
+  background-color: #ccddff;
   position: fixed;
   top: 0;
   left: 0;
@@ -20,9 +26,9 @@
   margin: auto;
   padding: 1rem;
   max-width: 500px;
-  border: 2px solid #333;
+  border: 2px solid #ffffff;
   border-radius: 10px; /* Agregar borde curvo */
-  background-color: #e9f5f3;
+  background-color: #fff;
 }
 
 label {
@@ -32,42 +38,54 @@ label {
 #objeto {
   margin-top: 1rem;
   padding: 2rem;
-  border: 1px solid black;
-  background-color: #333333;
+  border: 1px solid #3F51B5;
+  background-color: #fff;
+  border-radius: 0.25rem;
+  border: 1px solid #3F51B5;
+  color: #3F51B5;
 }
 
 .submit {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid black;
-  background-color: black;
-  color: white;
+  margin-right: 0.5rem;
+  padding: 1rem; /* Aumentar el tamaño del botón /
+  width: 4rem; / Ajustar la anchura /
+  height: 4rem; / Ajustar la altura */
+  border-radius: 50%;
+  border: none;
+  background-color: #3F51B5;
+  color: #fff;
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
 .button-pay {
   margin-top: 1rem;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid black;
-  background-color: black;
-  color: white;
+  margin-right: 0.5rem;
+  padding: 1rem; /* Aumentar el tamaño del botón /
+  width: 4rem; / Ajustar la anchura /
+  height: 4rem; / Ajustar la altura */
+  border-radius: 50%;
+  border: none;
+  background-color: #3F51B5;
+  color: #fff;
   cursor: pointer;
   text-decoration: none;
   transition: background-color 0.3s ease;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 
-  &:disabled {
-    cursor: default;
-    opacity: 0.5;
-    background-color: gray;
+    &:disabled {
+      cursor: default;
+      opacity: 0.5;
+      background-color: rgb(108, 104, 117);
+    }
+
   }
-}
 
 .submit:hover {
-  background-color: gray;
+  background-color: #1A237E;
 }
 
 .button-container {

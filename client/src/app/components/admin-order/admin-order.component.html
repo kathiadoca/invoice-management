@@ -1,7 +1,7 @@
 <div class="background">
   <h1 class="titulo">Consulta y Pago de Facturas</h1>
   <div class="contenedor">
-    <label for="filtro">Filtrar por referencia:</label>
+    <label for="filtro" class="filtro">Filtrar por referencia:</label>
     <input type="text" id="filtro" [(ngModel)]="reference">
     <button class="submit" type="submit" (click)="order()">Consultar</button>
     <div id="objeto" *ngIf="order">
