@@ -13,6 +13,7 @@ export class AdminOrderComponent implements OnInit {
 
   constructor(private apiService: ApiService, private router: Router){}
   reference: string = '';
+  message: string = '';
   referencia: string = '';
   orderTotal: string = '';
   expirationDate: string = '';
@@ -43,14 +44,24 @@ export class AdminOrderComponent implements OnInit {
       this.ean = responseOrder.data.ean;
       this.status = responseOrder.data.status;
       console.log(responseOrder)
-    })
+    },
+    error => {
+      if(error.status === 401){
+        this.router.navigate(['login'])
+      }
+    }
+    )
   }
 
   payment(updateOrderDTO: UpdateOrderDTO){
     let responseOrder: ResponseGetOrder;
     this.apiService.payOrder(updateOrderDTO).subscribe(data=>{
       responseOrder = data;
-      if(responseOrder.responseCode === 200){
+      if(responseOrder.responseCode === 200) {
+        this.message = 'Factura pagada exitosamente';
+        setTimeout(() => {
+          this.message = '';
+        }, 2000);
         this.referencia = '';
         this.orderTotal = '';
         this.expirationDate = '';

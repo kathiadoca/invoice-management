@@ -11,6 +11,7 @@
           <a routerLink="/signup"><button class="submit">Registrar</button></a>
         </div>
       </form>
+      <h2 *ngIf="loginError" class="error">{{ loginError }}</h2>
       <h2>&nbsp;</h2>
     </div>
 </div>

@@ -13,7 +13,7 @@ import { ResponseLogin } from 'src/app/model/response-login.interface';
 })
 export class LoginComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router){}
-
+  loginError: string = '';
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required) 
@@ -41,10 +41,26 @@ export class LoginComponent implements OnInit {
     const login: Login = loginData as Login;
     this.apiService.login(login).subscribe(data=>{
       let responseAuth: ResponseLogin = data;
+      console.log('*--->', responseAuth);
       if(responseAuth.message === 'Ok'){
         localStorage.setItem("token", responseAuth.data.token)
         this.router.navigate(['admin-order'])
+      } 
+    },
+    error => {
+      if (error.status === 403) {
+        this.loginError = 'Contraseña inválida';
+        setTimeout(() => {
+          this.loginError = '';
+        }, 2000);
       }
-    });
+      if (error.status === 404) {
+        this.loginError = 'Usuario inválido';
+        setTimeout(() => {
+          this.loginError = '';
+        }, 2000);
+      }
+    }
+    );
   }
 }

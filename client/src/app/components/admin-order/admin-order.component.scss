@@ -1,67 +1,76 @@
 .titulo {
-    text-align: center;
-  }
-  
-  .contenedor {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    margin: auto;
-    padding: 1rem;
-    max-width: 500px;
-  }
-  
-  label {
-    margin-top: 1rem;
-  }
-  
-  #objeto {
-    margin-top: 1rem;
-    padding: 1rem;
-    border: 1px solid black;
-  }
-  
-  .submit {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    border: none;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
+  text-align: center;
+}
 
-  .button-pay {
-    margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.25rem;
-    border: none;
-    background-color: black;
-    color: white;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-  }
-  
-  .submit:hover {
+.background {
+  background-color: #0099ff;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.contenedor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  padding: 1rem;
+  max-width: 500px;
+  border: 2px solid #333;
+  border-radius: 10px; /* Agregar borde curvo */
+  background-color: #e9f5f3;
+}
+
+label {
+  margin-top: 1rem;
+}
+
+#objeto {
+  margin-top: 1rem;
+  padding: 2rem;
+  border: 1px solid black;
+  background-color: #333333;
+}
+
+.submit {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+}
+
+.button-pay {
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  border: 1px solid black;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.3s ease;
+
+  &:disabled {
+    cursor: default;
+    opacity: 0.5;
     background-color: gray;
   }
-  
-  .button-container {
-    display: flex;
-    justify-content: center;
-  }
-  
-  .button-pay {
-    
-    &:disabled {
-      cursor: not-allowed;
-      opacity: 0.5;
-      background-color: gray;
-      // Agrega cualquier otro estilo que desees aplicar al botón desactivado aquí
-    }
-  }
+}
+
+.submit:hover {
+  background-color: gray;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+}
