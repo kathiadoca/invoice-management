@@ -12,7 +12,7 @@ export class Order extends Document {
   orderTotal: number;
 
   @Prop({ required: true })
-  expirationDate: Date;
+  expirationDate: string;
 
   @Prop({ required: true })
   ean: string;
